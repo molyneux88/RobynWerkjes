@@ -200,3 +200,27 @@ padding:6px;
 border-radius:6px;
 margin-top:5px;
 }
+
+.ops-grid{
+display:flex;
+justify-content:space-around;
+margin-bottom:10px;
+}
+
+.op-symbol{
+font-size:28px;
+margin-left:6px;
+}
+
+.tables-grid{
+display:grid;
+grid-template-columns: repeat(4,1fr);
+gap:10px;
+padding-top:5px;
+padding-bottom:10px;
+}
+
+.reset-stars{
+margin-top:10px;
+background:#e53935;
+}

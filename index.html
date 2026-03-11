@@ -27,32 +27,55 @@
 
 <h3>Operations</h3>
 
-<label class="playful"><input type="checkbox" id="add" checked> +</label>
-<label class="playful"><input type="checkbox" id="sub" checked> −</label>
-<label class="playful"><input type="checkbox" id="mul" checked> ×</label>
-<label class="playful"><input type="checkbox" id="div"> ÷</label>
+<div class="ops-grid">
+
+<label class="playful">
+<input type="checkbox" id="add" checked>
+<span class="op-symbol">+</span>
+</label>
+
+<label class="playful">
+<input type="checkbox" id="sub" checked>
+<span class="op-symbol">−</span>
+</label>
+
+<label class="playful">
+<input type="checkbox" id="mul" checked>
+<span class="op-symbol">×</span>
+</label>
+
+<label class="playful">
+<input type="checkbox" id="div">
+<span class="op-symbol">÷</span>
+</label>
+
+</div>
 
 <h3>Times Tables</h3>
 
-<label><input type="checkbox" value="2" checked class="table">2</label>
-<label><input type="checkbox" value="3" checked class="table">3</label>
-<label><input type="checkbox" value="4" class="table">4</label>
-<label><input type="checkbox" value="5" checked class="table">5</label>
-<label><input type="checkbox" value="6" class="table">6</label>
-<label><input type="checkbox" value="7" class="table">7</label>
-<label><input type="checkbox" value="8" class="table">8</label>
-<label><input type="checkbox" value="9" class="table">9</label>
-<label><input type="checkbox" value="10" class="table">10</label>
+<div class="tables-grid">
+
+<label><input type="checkbox" class="table" value="2" checked>2</label>
+<label><input type="checkbox" class="table" value="3" checked>3</label>
+<label><input type="checkbox" class="table" value="4">4</label>
+<label><input type="checkbox" class="table" value="5" checked>5</label>
+<label><input type="checkbox" class="table" value="6">6</label>
+<label><input type="checkbox" class="table" value="7">7</label>
+<label><input type="checkbox" class="table" value="8">8</label>
+<label><input type="checkbox" class="table" value="9">9</label>
+<label><input type="checkbox" class="table" value="10">10</label>
+<label><input type="checkbox" class="table" value="11">11</label>
+<label><input type="checkbox" class="table" value="12">12</label>
+
+</div>
 
 <h3>Mascot</h3>
 
-<select id="mascotSelect">
-<option value="🦊">Fox</option>
-<option value="🐶">Dog</option>
-<option value="🐱">Cat</option>
-<option value="🦄">Unicorn</option>
-<option value="🦖">Dinosaur</option>
-</select>
+<select id="mascotSelect"></select>
+
+<button onclick="resetStars()" class="reset-stars">
+Reset Stars
+</button>
 
 </div>
 

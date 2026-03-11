@@ -9,7 +9,7 @@ let savedMascot = localStorage.getItem("mathMascot") || "🦊";
 
 document.getElementById("mascot").innerText = savedMascot;
 
-document.getElementById("mascotSelect").value = savedMascot;
+updateMascotList();
 
 let answers=[];
 
@@ -22,6 +22,8 @@ document.getElementById("optionsMenu").classList.toggle("hidden");
 }
 
 function generate(){
+
+document.getElementById("mascotMessage").innerText = "Let's do some math!";
 
 answers=[];
 
@@ -191,6 +193,66 @@ document.getElementById("mascotSelect").addEventListener("change", function(){
 
 const mascot=this.value;
 document.getElementById("mascot").innerText=mascot;
+
+localStorage.setItem("mathMascot", mascot);
+
+});
+
+function resetStars(){
+
+stars = 0;
+
+localStorage.setItem("mathStars", 0);
+
+document.getElementById("starCount").innerText = 0;
+
+updateUnlocks();
+updateMascotList();
+
+}
+
+const mascotData = [
+{emoji:"🦊", name:"Fox", stars:0},
+{emoji:"🐶", name:"Dog", stars:10},
+{emoji:"🐱", name:"Cat", stars:25},
+{emoji:"🦄", name:"Unicorn", stars:50},
+{emoji:"🦖", name:"Dinosaur", stars:100}
+];
+
+function updateMascotList(){
+
+const select = document.getElementById("mascotSelect");
+
+select.innerHTML="";
+
+mascotData.forEach(m => {
+
+const option = document.createElement("option");
+
+option.value = m.emoji;
+
+if(stars < m.stars){
+
+option.textContent = `${m.name} 🔒 (${m.stars}⭐)`;
+option.disabled = true;
+
+}else{
+
+option.textContent = m.name;
+
+}
+
+select.appendChild(option);
+
+});
+
+}
+
+document.getElementById("mascotSelect").addEventListener("change", function(){
+
+const mascot = this.value;
+
+document.getElementById("mascot").innerText = mascot;
 
 localStorage.setItem("mathMascot", mascot);
 
