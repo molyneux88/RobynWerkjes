@@ -1,3 +1,16 @@
+let stars = localStorage.getItem("mathStars") || 0;
+stars = parseInt(stars);
+
+document.getElementById("starCount").innerText = stars;
+
+updateUnlocks();
+
+let savedMascot = localStorage.getItem("mathMascot") || "🦊";
+
+document.getElementById("mascot").innerText = savedMascot;
+
+document.getElementById("mascotSelect").value = savedMascot;
+
 let answers=[];
 
 function rand(max){
@@ -47,9 +60,9 @@ qDiv.innerHTML+=`
 
 <div class="q-text">${text} =</div>
 
-<div>
+<div class="answer-area">
 <input type="number" id="q${i}">
-<span id="r${i}"></span>
+<span class="result-icon" id="r${i}"></span>
 </div>
 
 </div>
@@ -76,6 +89,14 @@ r.innerHTML="❌";
 }
 
 }
+
+stars += score;
+localStorage.setItem("mathStars", stars);
+document.getElementById("starCount").innerText = stars;
+
+updateUnlocks();
+
+updateMascot(score);
 
 if(score===10){
 result.innerText="🎉 PERFECT SCORE 🎉";
@@ -120,3 +141,57 @@ setTimeout(()=>conf.remove(),fall*1000);
 }
 
 }
+
+function updateMascot(score){
+
+const mascot=document.getElementById("mascot");
+const message=document.getElementById("mascotMessage");
+
+if(score===10){
+mascot.innerText="🤩";
+message.innerText="Amazing!!";
+mascot.classList.add("happy");
+}
+
+else if(score>=7){
+mascot.innerText="🙂";
+message.innerText="Great job!";
+}
+
+else if(score>=4){
+mascot.innerText="😐";
+message.innerText="Good try!";
+}
+
+else{
+mascot.innerText="🤔";
+message.innerText="Let's try again!";
+}
+
+setTimeout(()=>{
+mascot.classList.remove("happy");
+},800);
+
+}
+
+function updateUnlocks(){
+
+let animals=[];
+
+if(stars>=10) animals.push("🐶");
+if(stars>=25) animals.push("🐱");
+if(stars>=50) animals.push("🦄");
+if(stars>=100) animals.push("🦖");
+
+document.getElementById("unlockArea").innerText=animals.join(" ");
+
+}
+
+document.getElementById("mascotSelect").addEventListener("change", function(){
+
+const mascot=this.value;
+document.getElementById("mascot").innerText=mascot;
+
+localStorage.setItem("mathMascot", mascot);
+
+});

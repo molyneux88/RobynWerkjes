@@ -102,15 +102,6 @@ border-radius:50%;
 background:#6a5acd;
 color:white;
 display:inline-block;
-animation:bounce 2s infinite;
-}
-
-/* Bouncing animation */
-
-@keyframes bounce{
-0%{transform:translateY(0)}
-50%{transform:translateY(-4px)}
-100%{transform:translateY(0)}
 }
 
 /* Question text */
@@ -129,6 +120,17 @@ padding:6px;
 font-size:18px;
 border-radius:6px;
 border:1px solid #ccc;
+}
+
+.answer-area{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.result-icon{
+font-size:24px;
+width:24px;
 }
 
 /* Star animation */
@@ -152,4 +154,49 @@ margin-left:5px;
 margin-top:20px;
 font-size:24px;
 font-family:'Fredoka', sans-serif;
+}
+
+/* Mascot */
+
+.mascot-area{
+margin-bottom:20px;
+}
+
+#mascot{
+font-size:60px;
+margin-bottom:5px;
+transition:transform .3s;
+}
+
+#mascot.happy{
+transform:scale(1.2) rotate(5deg);
+}
+
+#mascotMessage{
+font-family:'Fredoka', sans-serif;
+font-size:22px;
+}
+
+/* Reward system */
+
+.reward-area{
+background:white;
+padding:10px;
+border-radius:10px;
+width:260px;
+margin:10px auto;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+font-family:'Fredoka', sans-serif;
+}
+
+#unlockArea{
+margin-top:5px;
+font-size:22px;
+}
+
+select{
+font-size:18px;
+padding:6px;
+border-radius:6px;
+margin-top:5px;
 }
