@@ -1,29 +1,38 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="UTF-8">
 <title>Math Fun 🎉</title>
 
 <link rel="stylesheet" href="style.css">
 
+<!-- Playful font -->
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&display=swap" rel="stylesheet">
+
 </head>
 
-<body>
+<body onload="generate()">
 
 <h1>Math Fun 🎉</h1>
 
-<div class="options">
+<div class="top-bar">
+
+<button onclick="toggleOptions()">⚙ Options</button>
+<button onclick="generate()">🔄 New Questions</button>
+
+</div>
+
+<div id="optionsMenu" class="options-menu hidden">
+
+<h3>Operations</h3>
 
 <label><input type="checkbox" id="add" checked> +</label>
 <label><input type="checkbox" id="sub" checked> -</label>
 <label><input type="checkbox" id="mul" checked> ×</label>
 <label><input type="checkbox" id="div"> ÷</label>
 
-</div>
-
-<div class="tables">
-
-<p>Times Tables</p>
+<h3>Times Tables</h3>
 
 <label><input type="checkbox" value="2" checked class="table">2</label>
 <label><input type="checkbox" value="3" checked class="table">3</label>
@@ -37,11 +46,9 @@
 
 </div>
 
-<button onclick="generate()">Generate Questions</button>
-
 <div id="questions"></div>
 
-<button onclick="checkAnswers()">Check Answers</button>
+<button class="check-button" onclick="checkAnswers()">Check Answers</button>
 
 <h2 id="result"></h2>
 

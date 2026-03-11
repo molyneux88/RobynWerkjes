@@ -4,6 +4,10 @@ function rand(max){
 return Math.floor(Math.random()*max)+1;
 }
 
+function toggleOptions(){
+document.getElementById("optionsMenu").classList.toggle("hidden");
+}
+
 function generate(){
 
 answers=[];
@@ -37,10 +41,17 @@ if(op=="/"){text=`${a*b} ÷ ${b}`; ans=a;}
 answers.push(ans);
 
 qDiv.innerHTML+=`
-<div class="question">
-${i+1}. ${text} =
+<div class="question-row">
+
+<div class="q-number">${i+1}</div>
+
+<div class="q-text">${text} =</div>
+
+<div>
 <input type="number" id="q${i}">
 <span id="r${i}"></span>
+</div>
+
 </div>
 `;
 }
@@ -71,7 +82,7 @@ r.className="wrong";
 if(score===10){
 result.innerText="🎉 PERFECT SCORE 🎉";
 }else{
-result.innerText="Score: "+score+"/10";
+result.innerText=`Score: ${score}/10`;
 }
 
 }
