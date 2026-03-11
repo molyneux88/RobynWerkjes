@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Math Fun 🎉</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<h1>Math Fun 🎉</h1>
+
+<div class="options">
+
+<label><input type="checkbox" id="add" checked> +</label>
+<label><input type="checkbox" id="sub" checked> -</label>
+<label><input type="checkbox" id="mul" checked> ×</label>
+<label><input type="checkbox" id="div"> ÷</label>
+
+</div>
+
+<div class="tables">
+
+<p>Times Tables</p>
+
+<label><input type="checkbox" value="2" checked class="table">2</label>
+<label><input type="checkbox" value="3" checked class="table">3</label>
+<label><input type="checkbox" value="4" class="table">4</label>
+<label><input type="checkbox" value="5" checked class="table">5</label>
+<label><input type="checkbox" value="6" class="table">6</label>
+<label><input type="checkbox" value="7" class="table">7</label>
+<label><input type="checkbox" value="8" class="table">8</label>
+<label><input type="checkbox" value="9" class="table">9</label>
+<label><input type="checkbox" value="10" class="table">10</label>
+
+</div>
+
+<button onclick="generate()">Generate Questions</button>
+
+<div id="questions"></div>
+
+<button onclick="checkAnswers()">Check Answers</button>
+
+<h2 id="result"></h2>
+
+<script src="script.js"></script>
+
+</body>
+</html>
