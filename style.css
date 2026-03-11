@@ -1,9 +1,11 @@
 body{
 font-family: Arial, sans-serif;
-background: #f4f9ff;
+background: linear-gradient(#f4f9ff,#e8f4ff);
 text-align:center;
 padding:20px;
 }
+
+/* Title */
 
 h1{
 color:#ff6b6b;
@@ -19,7 +21,7 @@ button{
 font-size:18px;
 padding:10px 20px;
 margin:5px;
-border-radius:10px;
+border-radius:12px;
 border:none;
 background:#4CAF50;
 color:white;
@@ -29,7 +31,6 @@ transition:0.2s;
 
 button:hover{
 transform:scale(1.05);
-background:#45a049;
 }
 
 .check-button{
@@ -41,60 +42,114 @@ background:#ff9800;
 .options-menu{
 background:white;
 border-radius:12px;
-padding:15px;
-width:300px;
+padding:20px;
+width:320px;
 margin:0 auto 20px auto;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
+box-shadow:0 5px 15px rgba(0,0,0,0.15);
+text-align:left;
 }
 
 .hidden{
 display:none;
 }
 
+/* Larger checkboxes */
+
+.options-menu input[type="checkbox"]{
+transform:scale(1.6);
+margin-right:8px;
+cursor:pointer;
+}
+
+/* Playful font */
+
+.playful{
+font-family: 'Fredoka', sans-serif;
+font-size:20px;
+}
+
 /* Question layout */
 
 .question-row{
 display:grid;
-grid-template-columns: 60px 1fr 120px;
+grid-template-columns: 60px auto 110px;
 align-items:center;
-gap:10px;
 max-width:500px;
-margin:8px auto;
-font-size:20px;
+margin:10px auto;
+padding:6px 10px;
+border-radius:10px;
 }
 
-/* Playful number */
+/* Rainbow rows */
+
+.question-row:nth-child(odd){
+background:#fff9e6;
+}
+
+.question-row:nth-child(even){
+background:#e6f7ff;
+}
+
+/* Number bubble */
 
 .q-number{
-font-family: 'Fredoka', sans-serif;
-font-size:26px;
-color:#6a5acd;
+font-family:'Fredoka', sans-serif;
+font-size:22px;
+width:36px;
+height:36px;
+line-height:36px;
+border-radius:50%;
+background:#6a5acd;
+color:white;
+display:inline-block;
+animation:bounce 2s infinite;
+}
+
+/* Bouncing animation */
+
+@keyframes bounce{
+0%{transform:translateY(0)}
+50%{transform:translateY(-4px)}
+100%{transform:translateY(0)}
 }
 
 /* Question text */
 
 .q-text{
 text-align:left;
+padding-left:10px;
+padding-right:10px;
 }
 
 /* Answer box */
 
 input[type="number"]{
-width:80px;
+width:70px;
 padding:6px;
 font-size:18px;
 border-radius:6px;
 border:1px solid #ccc;
 }
 
-/* Results */
+/* Star animation */
 
-.correct{
-color:green;
-font-weight:bold;
+.star{
+font-size:22px;
+color:gold;
+animation:spin 1s ease;
+margin-left:5px;
 }
 
-.wrong{
-color:red;
-font-weight:bold;
+@keyframes spin{
+0%{transform:scale(0) rotate(0)}
+80%{transform:scale(1.4) rotate(360deg)}
+100%{transform:scale(1)}
+}
+
+/* Result */
+
+#result{
+margin-top:20px;
+font-size:24px;
+font-family:'Fredoka', sans-serif;
 }

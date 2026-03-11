@@ -69,20 +69,54 @@ const val=parseInt(document.getElementById("q"+i).value);
 const r=document.getElementById("r"+i);
 
 if(val===answers[i]){
-r.innerHTML=" ✅";
-r.className="correct";
+r.innerHTML=`<span class="star">⭐</span>`;
 score++;
 }else{
-r.innerHTML=" ❌";
-r.className="wrong";
+r.innerHTML="❌";
 }
 
 }
 
 if(score===10){
 result.innerText="🎉 PERFECT SCORE 🎉";
+confetti();
 }else{
 result.innerText=`Score: ${score}/10`;
+}
+
+}
+
+/* Confetti */
+
+function confetti(){
+
+for(let i=0;i<120;i++){
+
+let conf=document.createElement("div");
+
+conf.style.position="fixed";
+conf.style.width="8px";
+conf.style.height="8px";
+conf.style.background=`hsl(${Math.random()*360},80%,60%)`;
+conf.style.left=Math.random()*100+"vw";
+conf.style.top="-10px";
+conf.style.opacity="0.8";
+conf.style.zIndex="999";
+
+document.body.appendChild(conf);
+
+let fall=5+Math.random()*3;
+
+conf.animate([
+{transform:"translateY(0) rotate(0)"},
+{transform:`translateY(100vh) rotate(${Math.random()*720}deg)`}
+],{
+duration:fall*1000,
+iterations:1
+});
+
+setTimeout(()=>conf.remove(),fall*1000);
+
 }
 
 }
