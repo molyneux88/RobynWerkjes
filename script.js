@@ -52,38 +52,45 @@ function toggleOptions() {
 // Question generation
 // ----------------------
 function generate() {
+  // Reset message
   document.getElementById("mascotMessage").innerText = "Let's do some math!";
+
+  // Restore currently selected mascot
+  const savedMascot = document.getElementById("mascotSelect").value || "🦊";
+  document.getElementById("mascot").innerText = savedMascot;
+
   answers = [];
 
-  const ops=[];
+  const ops = [];
   if(add.checked) ops.push("+");
   if(sub.checked) ops.push("-");
   if(mul.checked) ops.push("*");
   if(div.checked) ops.push("/");
 
-  const tables=[...document.querySelectorAll(".table:checked")].map(x=>parseInt(x.value));
+  const tables = [...document.querySelectorAll(".table:checked")].map(x => parseInt(x.value));
 
-  const qDiv=document.getElementById("questions");
-  qDiv.innerHTML="";
+  const qDiv = document.getElementById("questions");
+  qDiv.innerHTML = "";
 
-  for(let i=0;i<10;i++){
-    const op=ops[Math.floor(Math.random()*ops.length)];
-    let a=rand(10);
-    let b=tables[Math.floor(Math.random()*tables.length)];
+  for (let i = 0; i < 10; i++) {
+    const op = ops[Math.floor(Math.random() * ops.length)];
 
-    let text="";
-    let ans=0;
+    let a = rand(10);
+    let b = tables[Math.floor(Math.random() * tables.length)];
 
-    if(op=="+"){text=`${a} + ${b}`; ans=a+b;}
-    if(op=="-"){text=`${a+b} - ${b}`; ans=a;}
-    if(op=="*"){text=`${a} × ${b}`; ans=a*b;}
-    if(op=="/"){text=`${a*b} ÷ ${b}`; ans=a;}
+    let text = "";
+    let ans = 0;
+
+    if (op === "+") { text = `${a} + ${b}`; ans = a + b; }
+    if (op === "-") { text = `${a + b} - ${b}`; ans = a; }
+    if (op === "*") { text = `${a} × ${b}`; ans = a * b; }
+    if (op === "/") { text = `${a * b} ÷ ${b}`; ans = a; }
 
     answers.push(ans);
 
-    qDiv.innerHTML+=`
+    qDiv.innerHTML += `
       <div class="question-row">
-        <div class="q-number">${i+1}</div>
+        <div class="q-number">${i + 1}</div>
         <div class="q-text">${text} =</div>
         <div class="answer-area">
           <input type="number" id="q${i}">
@@ -93,7 +100,7 @@ function generate() {
     `;
   }
 
-  result.innerText="";
+  result.innerText = "";
 }
 
 // ----------------------

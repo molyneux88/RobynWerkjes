@@ -224,3 +224,109 @@ padding-bottom:10px;
 margin-top:10px;
 background:#e53935;
 }
+
+/* Base font sizes for readability */
+body {
+  font-size: 18px;
+  padding: 15px;
+}
+
+h1 {
+  font-size: 28px;
+}
+
+/* Questions */
+.q-text {
+  font-size: 24px;
+}
+
+.q-number {
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+}
+
+input[type="number"] {
+  font-size: 20px;
+  width: 70px;
+  padding: 8px;
+}
+
+/* Result icon */
+.result-icon {
+  font-size: 26px;
+}
+
+/* Answer area spacing */
+.answer-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Options menu font */
+.options-menu {
+  font-size: 18px;
+  width: 90%;
+  max-width: 360px;
+  padding: 20px;
+}
+
+/* Operations grid */
+.ops-grid {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+/* Times tables grid */
+.tables-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+  gap: 10px;
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+/* Mascot dropdown */
+select {
+  font-size: 18px;
+  padding: 8px;
+  width: 100%;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 480px) {
+  body {
+    font-size: 20px;
+    padding: 10px;
+  }
+
+  .q-text {
+    font-size: 26px;
+  }
+
+  input[type="number"] {
+    width: 60px;
+    font-size: 20px;
+  }
+
+  .q-number {
+    font-size: 26px;
+    width: 44px;
+    height: 44px;
+    line-height: 44px;
+  }
+
+  button {
+    font-size: 20px;
+    padding: 10px 16px;
+  }
+
+  .ops-grid label,
+  .tables-grid label {
+    font-size: 20px;
+  }
+}
