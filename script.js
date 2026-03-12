@@ -120,7 +120,11 @@ function checkAnswers() {
   let score=0;
 
   for(let i=0;i<answers.length;i++){
-    const val=parseInt(document.getElementById("q"+i).value);
+    const input = document.getElementById("q"+i);
+    const val = parseInt(input.value);
+
+    if(input.value === "") continue;
+    
     const r=document.getElementById("r"+i);
 
     if(val===answers[i]){
@@ -248,13 +252,26 @@ block: "center"
 
 function pressKey(num){
 
-if(!activeInput) return;
+  if(!activeInput) return;
 
-activeInput.value += num;
+  let id = activeInput.id.replace("q","");
+  let correct = answers[id];
 
-if(autoCheck){
-checkSingle(activeInput);
-}
+  /* prevent typing more digits than the correct answer length */
+
+  if(activeInput.value.length >= correct.toString().length) return;
+
+  activeInput.value += num;
+
+  /* run auto check if enabled */
+
+  if(autoCheck){
+
+    if(parseInt(activeInput.value) === correct){
+    checkSingle(activeInput);
+    }
+
+  }
 
 }
 
@@ -271,6 +288,10 @@ function hideKeypad(){
 document.getElementById("keypad").classList.remove("show");
 
 document.body.classList.remove("keypad-open");
+
+if(activeInput){
+activeInput.blur();
+}
 
 activeInput = null;
 
@@ -320,6 +341,22 @@ resultIcon.innerHTML = "❌";
 }
 
 }
+
+document.addEventListener("click", function(e){
+
+const keypad = document.getElementById("keypad");
+
+const isInput = e.target.tagName === "INPUT";
+
+const insideKeypad = keypad.contains(e.target);
+
+if(!isInput && !insideKeypad){
+
+hideKeypad();
+
+}
+
+});
 
 // ----------------------
 // Start everything after DOM loaded
