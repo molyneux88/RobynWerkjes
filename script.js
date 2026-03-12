@@ -235,7 +235,14 @@ function setActive(input){
 
 activeInput = input;
 
-document.getElementById("keypad").classList.remove("hidden");
+document.getElementById("keypad").classList.add("show");
+
+document.body.classList.add("keypad-open");
+
+input.scrollIntoView({
+behavior: "smooth",
+block: "center"
+});
 
 }
 
@@ -261,7 +268,9 @@ activeInput.value = activeInput.value.slice(0,-1);
 
 function hideKeypad(){
 
-document.getElementById("keypad").classList.add("hidden");
+document.getElementById("keypad").classList.remove("show");
+
+document.body.classList.remove("keypad-open");
 
 activeInput = null;
 
