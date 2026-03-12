@@ -139,10 +139,10 @@ function checkAnswers(){
     const val=parseInt(input.value);
     const r=document.getElementById("r"+i);
     if(val===answers[i]){
-      r.innerHTML=`<span class="star">⭐</span>`;
+      r.innerHTML = `<span class="star star-bounce">⭐</span>`;
       score++;
     } else {
-      r.innerHTML="❌";
+      r.innerHTML = `<span class="cross cross-shake">❌</span>`;
     }
   }
   stars += score;
@@ -200,20 +200,32 @@ function updateCheckButton(){
 }
 
 function checkSingle(input){
-  let id = input.id.replace("q","");
-  let resultIcon = document.getElementById("r"+id);  // declare first!
-  let correct = answers[id];
-  let value = parseInt(input.value);
+    let id = input.id.replace("q","");
+    let resultIcon = document.getElementById("r"+id);
+    let correct = answers[id];
+    let value = parseInt(input.value);
 
-  if(value === correct){
-    resultIcon.innerHTML = `<span class="star">⭐</span>`;
-    stars++;
-    localStorage.setItem("mathStars", stars);
-    document.getElementById("starCount").innerText = stars;
-    updateUnlocks();
-  } else {
-    resultIcon.innerHTML = "❌";
-  }
+    if(value === correct){
+        if(!resultIcon.dataset.checked){  // prevent double stars
+            resultIcon.innerHTML = `<span class="star star-bounce">⭐</span>`;
+            resultIcon.dataset.checked = "true";
+            stars++;
+            localStorage.setItem("mathStars", stars);
+            document.getElementById("starCount").innerText = stars;
+            updateUnlocks();
+            updateMascotList();
+        }
+    } else {
+        resultIcon.innerHTML = `<span class="cross cross-shake">❌</span>`;   // <-- show cross immediately
+        resultIcon.dataset.checked = "false";
+    }
+
+    // Check if all answers correct
+    const allCorrect = [...answers].every((ans, i) => {
+        const el = document.getElementById("r"+i);
+        return el && el.innerHTML.includes("⭐");
+    });
+    if(allCorrect) confetti();
 }
 
 // ----------------------
