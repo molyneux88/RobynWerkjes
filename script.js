@@ -2,10 +2,9 @@
 // Global variables
 // ----------------------
 let answers = [];
-
 let activeInput = null;
-
 let stars = parseInt(localStorage.getItem("mathStars") || 0);
+let autoCheck = localStorage.getItem("autoCheck") === "true";
 
 const mascotData = [
   {emoji:"🦊", name:"Fox", stars:0},
@@ -15,8 +14,6 @@ const mascotData = [
   {emoji:"🦖", name:"Dinosaur", stars:100}
 ];
 
-let autoCheck = localStorage.getItem("autoCheck") === "true";
-
 // ----------------------
 // Initialization
 // ----------------------
@@ -25,47 +22,64 @@ function init() {
   document.getElementById("autoCheck").checked = autoCheck;
   updateCheckButton();
 
+  // Buttons
+  document.querySelector(".primary-button").addEventListener("click", checkAnswers);
+  document.querySelector(".secondary-button").addEventListener("click", generate);
+  document.querySelector(".options-button").addEventListener("click", toggleOptions);
+  document.querySelector(".reset-stars").addEventListener("click", resetStars);
+
+  // Auto-check toggle
   document.getElementById("autoCheck").addEventListener("change", updateCheckButton);
 
-  // Set star count
-  document.getElementById("starCount").innerText = stars;
-
-  // Load mascot
-  let savedMascot = localStorage.getItem("mathMascot") || "🦊";
-  document.getElementById("mascot").innerText = savedMascot;
-
-  updateUnlocks();
-  updateMascotList();
-
-  generate(); // Generate 10 questions on load
-
-  // Mascot selection listener
+  // Mascot select
   document.getElementById("mascotSelect").addEventListener("change", function(){
     const mascot = this.value;
     document.getElementById("mascot").innerText = mascot;
     localStorage.setItem("mathMascot", mascot);
   });
+
+  // Set star count
+  document.getElementById("starCount").innerText = stars;
+
+  updateUnlocks();
+  updateMascotList();
+  generate(); // Generate 10 questions on load
+
+  // Click outside input to hide keypad
+  document.addEventListener("click", function(e){
+    const keypad = document.getElementById("keypad");
+    const isInput = e.target.tagName === "INPUT";
+    const insideKeypad = keypad.contains(e.target);
+    if(!isInput && !insideKeypad){
+      hideKeypad();
+    }
+  });
+
+  // Keypad button listeners
+  document.querySelectorAll("#keypad button").forEach(btn => {
+    btn.addEventListener("click", function(){
+      const key = btn.dataset.key;
+      if(key === "del") deleteKey();
+      else if(key === "hide") hideKeypad();
+      else pressKey(parseInt(key));
+    });
+  });
 }
 
 // ----------------------
-// Utility functions
+// Utility
 // ----------------------
-function rand(max) {
-  return Math.floor(Math.random()*max)+1;
-}
+function rand(max){ return Math.floor(Math.random()*max)+1; }
 
-function toggleOptions() {
+function toggleOptions(){
   document.getElementById("optionsMenu").classList.toggle("hidden");
 }
 
 // ----------------------
-// Question generation
+// Generate questions
 // ----------------------
-function generate() {
-  // Reset message
+function generate(){
   document.getElementById("mascotMessage").innerText = "Let's do some math!";
-
-  // Restore currently selected mascot
   const savedMascot = document.getElementById("mascotSelect").value || "🦊";
   document.getElementById("mascot").innerText = savedMascot;
 
@@ -78,55 +92,52 @@ function generate() {
   if(div.checked) ops.push("/");
 
   const tables = [...document.querySelectorAll(".table:checked")].map(x => parseInt(x.value));
-
   const qDiv = document.getElementById("questions");
   qDiv.innerHTML = "";
 
-  for (let i = 0; i < 10; i++) {
-    const op = ops[Math.floor(Math.random() * ops.length)];
-
+  for(let i=0;i<10;i++){
+    const op = ops[Math.floor(Math.random()*ops.length)];
     let a = rand(10);
-    let b = tables[Math.floor(Math.random() * tables.length)];
-
-    let text = "";
-    let ans = 0;
-
-    if (op === "+") { text = `${a} + ${b}`; ans = a + b; }
-    if (op === "-") { text = `${a + b} - ${b}`; ans = a; }
-    if (op === "*") { text = `${a} × ${b}`; ans = a * b; }
-    if (op === "/") { text = `${a * b} ÷ ${b}`; ans = a; }
-
+    let b = tables[Math.floor(Math.random()*tables.length)];
+    let text="", ans=0;
+    if(op=="+"){ text=`${a} + ${b}`; ans=a+b; }
+    if(op=="-"){ text=`${a+b} - ${b}`; ans=a; }
+    if(op=="*"){ text=`${a} × ${b}`; ans=a*b; }
+    if(op=="/"){ text=`${a*b} ÷ ${b}`; ans=a; }
     answers.push(ans);
 
     qDiv.innerHTML += `
       <div class="question-row">
-        <div class="q-number">${i + 1}</div>
+        <div class="q-number">${i+1}</div>
         <div class="q-text">${text} =</div>
         <div class="answer-area">
-          <input type="text" id="q${i}" onclick="setActive(this)" readonly>
+          <input type="text" id="q${i}" readonly>
           <span class="result-icon" id="r${i}"></span>
         </div>
       </div>
     `;
   }
 
-  result.innerText = "";
+  // Add click listeners to inputs
+  for(let i=0;i<10;i++){
+    document.getElementById("q"+i).addEventListener("click", function(){
+      setActive(this);
+    });
+  }
+
+  document.getElementById("result").innerText="";
 }
 
 // ----------------------
-// Answer checking
+// Answer handling
 // ----------------------
-function checkAnswers() {
+function checkAnswers(){
   let score=0;
-
   for(let i=0;i<answers.length;i++){
-    const input = document.getElementById("q"+i);
-    const val = parseInt(input.value);
-
-    if(input.value === "") continue;
-    
+    const input=document.getElementById("q"+i);
+    if(input.value==="") continue;
+    const val=parseInt(input.value);
     const r=document.getElementById("r"+i);
-
     if(val===answers[i]){
       r.innerHTML=`<span class="star">⭐</span>`;
       score++;
@@ -134,70 +145,79 @@ function checkAnswers() {
       r.innerHTML="❌";
     }
   }
-
   stars += score;
   localStorage.setItem("mathStars", stars);
   document.getElementById("starCount").innerText = stars;
-
   updateUnlocks();
   updateMascot(score);
+  document.getElementById("result").innerText = score===10?"🎉 PERFECT SCORE 🎉":`Score: ${score}/10`;
+}
 
-  if(score===10){
-    result.innerText="🎉 PERFECT SCORE 🎉";
-    confetti();
+// ----------------------
+// Keypad functions
+// ----------------------
+function setActive(input){
+  activeInput=input;
+  document.getElementById("keypad").classList.add("show");
+  document.body.classList.add("keypad-open");
+  input.scrollIntoView({behavior:"smooth", block:"center"});
+}
+
+function pressKey(num){
+  if(!activeInput) return;
+  let id = activeInput.id.replace("q","");
+  let correct = answers[id];
+  if(activeInput.value.length >= correct.toString().length) return;
+  activeInput.value += num;
+  if(autoCheck && parseInt(activeInput.value)===correct){
+    checkSingle(activeInput);
+  }
+}
+
+function deleteKey(){
+  if(!activeInput) return;
+  activeInput.value = activeInput.value.slice(0,-1);
+}
+
+function hideKeypad(){
+  document.getElementById("keypad").classList.remove("show");
+  document.body.classList.remove("keypad-open");
+  if(activeInput) activeInput.blur();
+  activeInput=null;
+}
+
+function updateCheckButton(){
+  autoCheck = document.getElementById("autoCheck").checked;
+  localStorage.setItem("autoCheck", autoCheck);
+  const btn=document.querySelector(".primary-button");
+  btn.style.display = autoCheck?"none":"block";
+}
+
+function checkSingle(input){
+  let id = input.id.replace("q","");
+  let correct = answers[id];
+  let resultIcon = document.getElementById("r"+id);
+  if(parseInt(input.value)===correct){
+    resultIcon.innerHTML=`<span class="star">⭐</span>`;
+    stars++;
+    localStorage.setItem("mathStars", stars);
+    document.getElementById("starCount").innerText = stars;
+    updateUnlocks();
   } else {
-    result.innerText=`Score: ${score}/10`;
+    resultIcon.innerHTML="❌";
   }
 }
 
 // ----------------------
-// Confetti animation
+// Mascot & stars
 // ----------------------
-function confetti() {
-  for(let i=0;i<120;i++){
-    let conf=document.createElement("div");
-    conf.style.position="fixed";
-    conf.style.width="8px";
-    conf.style.height="8px";
-    conf.style.background=`hsl(${Math.random()*360},80%,60%)`;
-    conf.style.left=Math.random()*100+"vw";
-    conf.style.top="-10px";
-    conf.style.opacity="0.8";
-    conf.style.zIndex="999";
-    document.body.appendChild(conf);
-
-    let fall=5+Math.random()*3;
-    conf.animate([
-      {transform:"translateY(0) rotate(0)"},
-      {transform:`translateY(100vh) rotate(${Math.random()*720}deg)`}
-    ],{ duration:fall*1000, iterations:1 });
-
-    setTimeout(()=>conf.remove(),fall*1000);
-  }
-}
-
-// ----------------------
-// Mascot & rewards
-// ----------------------
-function updateMascot(score) {
+function updateMascot(score){
   const mascot=document.getElementById("mascot");
   const message=document.getElementById("mascotMessage");
-
-  if(score===10){
-    mascot.innerText="🤩";
-    message.innerText="Amazing!!";
-    mascot.classList.add("happy");
-  } else if(score>=7){
-    mascot.innerText="🙂";
-    message.innerText="Great job!";
-  } else if(score>=4){
-    mascot.innerText="😐";
-    message.innerText="Good try!";
-  } else {
-    mascot.innerText="🤔";
-    message.innerText="Let's try again!";
-  }
-
+  if(score===10){ mascot.innerText="🤩"; message.innerText="Amazing!!"; mascot.classList.add("happy"); }
+  else if(score>=7){ mascot.innerText="🙂"; message.innerText="Great job!"; }
+  else if(score>=4){ mascot.innerText="😐"; message.innerText="Good try!"; }
+  else { mascot.innerText="🤔"; message.innerText="Let's try again!"; }
   setTimeout(()=>{mascot.classList.remove("happy");},800);
 }
 
@@ -211,154 +231,28 @@ function updateUnlocks(){
 }
 
 function resetStars(){
-  stars = 0;
-  localStorage.setItem("mathStars", 0);
-  document.getElementById("starCount").innerText = 0;
+  stars=0;
+  localStorage.setItem("mathStars",0);
+  document.getElementById("starCount").innerText=0;
   updateUnlocks();
   updateMascotList();
 }
 
 function updateMascotList(){
-  const select = document.getElementById("mascotSelect");
+  const select=document.getElementById("mascotSelect");
   select.innerHTML="";
-
-  mascotData.forEach(m => {
-    const option = document.createElement("option");
-    option.value = m.emoji;
-    if(stars < m.stars){
-      option.textContent = `${m.name} 🔒 (${m.stars}⭐)`;
-      option.disabled = true;
-    } else {
-      option.textContent = m.name;
-    }
+  mascotData.forEach(m=>{
+    const option=document.createElement("option");
+    option.value=m.emoji;
+    if(stars<m.stars){
+      option.textContent=`${m.name} 🔒 (${m.stars}⭐)`;
+      option.disabled=true;
+    } else option.textContent=m.name;
     select.appendChild(option);
   });
 }
 
-function setActive(input){
-
-activeInput = input;
-
-document.getElementById("keypad").classList.add("show");
-
-document.body.classList.add("keypad-open");
-
-input.scrollIntoView({
-behavior: "smooth",
-block: "center"
-});
-
-}
-
-function pressKey(num){
-
-  if(!activeInput) return;
-
-  let id = activeInput.id.replace("q","");
-  let correct = answers[id];
-
-  /* prevent typing more digits than the correct answer length */
-
-  if(activeInput.value.length >= correct.toString().length) return;
-
-  activeInput.value += num;
-
-  /* run auto check if enabled */
-
-  if(autoCheck){
-
-    if(parseInt(activeInput.value) === correct){
-    checkSingle(activeInput);
-    }
-
-  }
-
-}
-
-function deleteKey(){
-
-if(!activeInput) return;
-
-activeInput.value = activeInput.value.slice(0,-1);
-
-}
-
-function hideKeypad(){
-
-document.getElementById("keypad").classList.remove("show");
-
-document.body.classList.remove("keypad-open");
-
-if(activeInput){
-activeInput.blur();
-}
-
-activeInput = null;
-
-}
-
-function updateCheckButton(){
-
-autoCheck = document.getElementById("autoCheck").checked;
-
-localStorage.setItem("autoCheck", autoCheck);
-
-const btn = document.querySelector(".primary-button");
-
-if(autoCheck){
-btn.style.display = "none";
-}else{
-btn.style.display = "block";
-}
-
-}
-
-function checkSingle(input){
-
-if(resultIcon.innerHTML.includes("⭐")) return; 
-
-let id = input.id.replace("q","");
-let correct = answers[id];
-
-let value = parseInt(input.value);
-
-let resultIcon = document.getElementById("r"+id);
-
-if(value === correct){
-
-resultIcon.innerHTML = `<span class="star">⭐</span>`;
-
-stars++;
-localStorage.setItem("mathStars", stars);
-document.getElementById("starCount").innerText = stars;
-
-updateUnlocks();
-
-}else{
-
-resultIcon.innerHTML = "❌";
-
-}
-
-}
-
-document.addEventListener("click", function(e){
-
-const keypad = document.getElementById("keypad");
-
-const isInput = e.target.tagName === "INPUT";
-
-const insideKeypad = keypad.contains(e.target);
-
-if(!isInput && !insideKeypad){
-
-hideKeypad();
-
-}
-
-});
-
 // ----------------------
-// Start everything after DOM loaded
+// Start app
 // ----------------------
 document.addEventListener("DOMContentLoaded", init);

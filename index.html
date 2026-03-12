@@ -2,16 +2,11 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Math Fun 🎉</title>
 
 <link rel="stylesheet" href="style.css">
-
-<!-- Playful font -->
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&display=swap" rel="stylesheet">
 
 </head>
@@ -23,147 +18,98 @@
 <h1>Math Fun 🎉</h1>
 
 <div class="mascot-area">
-
-<div id="mascot">🦊</div>
-
-<div id="mascotMessage">
-Let's do some math!
+  <div id="mascot">🦊</div>
+  <div id="mascotMessage">Let's do some math!</div>
 </div>
-
-</div>
-
 
 <div class="reward-area">
-
-<div>⭐ Stars: <span id="starCount">0</span></div>
-
-<div id="unlockArea"></div>
-
+  <div>⭐ Stars: <span id="starCount">0</span></div>
+  <div id="unlockArea"></div>
 </div>
-
 
 <div id="questions"></div>
 
-
 <div class="button-stack">
-
-<button onclick="checkAnswers()" class="primary-button">
-Check Answers
-</button>
-
-<button onclick="generate()" class="secondary-button">
-New Questions
-</button>
-
-<button onclick="toggleOptions()" class="options-button">
-Options ⚙
-</button>
-
+  <button class="primary-button">Check Answers</button>
+  <button class="secondary-button">New Questions</button>
+  <button class="options-button">Options ⚙</button>
 </div>
-
 
 <div id="optionsMenu" class="options-menu hidden">
 
-<h3>Operations</h3>
+  <h3>Operations</h3>
+  <div class="ops-grid">
+    <label class="playful">
+      <input type="checkbox" id="add" checked>
+      <span class="op-symbol">+</span>
+    </label>
+    <label class="playful">
+      <input type="checkbox" id="sub" checked>
+      <span class="op-symbol">−</span>
+    </label>
+    <label class="playful">
+      <input type="checkbox" id="mul" checked>
+      <span class="op-symbol">×</span>
+    </label>
+    <label class="playful">
+      <input type="checkbox" id="div">
+      <span class="op-symbol">÷</span>
+    </label>
+  </div>
 
-<div class="ops-grid">
+  <h3>Times Tables</h3>
+  <div class="tables-grid">
+    <label><input type="checkbox" class="table" value="2" checked>2</label>
+    <label><input type="checkbox" class="table" value="3" checked>3</label>
+    <label><input type="checkbox" class="table" value="4">4</label>
+    <label><input type="checkbox" class="table" value="5" checked>5</label>
+    <label><input type="checkbox" class="table" value="6">6</label>
+    <label><input type="checkbox" class="table" value="7">7</label>
+    <label><input type="checkbox" class="table" value="8">8</label>
+    <label><input type="checkbox" class="table" value="9">9</label>
+    <label><input type="checkbox" class="table" value="10">10</label>
+    <label><input type="checkbox" class="table" value="11">11</label>
+    <label><input type="checkbox" class="table" value="12">12</label>
+  </div>
 
-<label class="playful">
-<input type="checkbox" id="add" checked>
-<span class="op-symbol">+</span>
-</label>
+  <h3>Mascot</h3>
+  <select id="mascotSelect"></select>
 
-<label class="playful">
-<input type="checkbox" id="sub" checked>
-<span class="op-symbol">−</span>
-</label>
+  <h3>Answer Mode</h3>
+  <label class="auto-check-toggle">
+    <input type="checkbox" id="autoCheck"> Instant Check ⭐
+  </label>
 
-<label class="playful">
-<input type="checkbox" id="mul" checked>
-<span class="op-symbol">×</span>
-</label>
-
-<label class="playful">
-<input type="checkbox" id="div">
-<span class="op-symbol">÷</span>
-</label>
-
+  <button class="reset-stars">Reset Stars</button>
 </div>
-
-
-<h3>Times Tables</h3>
-
-<div class="tables-grid">
-
-<label><input type="checkbox" class="table" value="2" checked>2</label>
-<label><input type="checkbox" class="table" value="3" checked>3</label>
-<label><input type="checkbox" class="table" value="4">4</label>
-<label><input type="checkbox" class="table" value="5" checked>5</label>
-<label><input type="checkbox" class="table" value="6">6</label>
-<label><input type="checkbox" class="table" value="7">7</label>
-<label><input type="checkbox" class="table" value="8">8</label>
-<label><input type="checkbox" class="table" value="9">9</label>
-<label><input type="checkbox" class="table" value="10">10</label>
-<label><input type="checkbox" class="table" value="11">11</label>
-<label><input type="checkbox" class="table" value="12">12</label>
-
-</div>
-
-
-<h3>Mascot</h3>
-
-<select id="mascotSelect"></select>
-
-<h3>Answer Mode</h3>
-
-<label class="auto-check-toggle">
-<input type="checkbox" id="autoCheck">
-Instant Check ⭐
-</label>
-
-<button onclick="resetStars()" class="reset-stars">
-Reset Stars
-</button>
-
-
-
-</div>
-
 
 <h2 id="result"></h2>
 
 </div>
 
 <div id="keypad" class="keypad">
-
-<div class="key-row">
-<button onclick="pressKey(1)">1</button>
-<button onclick="pressKey(2)">2</button>
-<button onclick="pressKey(3)">3</button>
-</div>
-
-<div class="key-row">
-<button onclick="pressKey(4)">4</button>
-<button onclick="pressKey(5)">5</button>
-<button onclick="pressKey(6)">6</button>
-</div>
-
-<div class="key-row">
-<button onclick="pressKey(7)">7</button>
-<button onclick="pressKey(8)">8</button>
-<button onclick="pressKey(9)">9</button>
-</div>
-
-<div class="key-row">
-<button onclick="deleteKey()">⌫</button>
-<button onclick="pressKey(0)">0</button>
-<button onclick="hideKeypad()">✔</button>
-</div>
-
+  <div class="key-row">
+    <button data-key="1">1</button>
+    <button data-key="2">2</button>
+    <button data-key="3">3</button>
+  </div>
+  <div class="key-row">
+    <button data-key="4">4</button>
+    <button data-key="5">5</button>
+    <button data-key="6">6</button>
+  </div>
+  <div class="key-row">
+    <button data-key="7">7</button>
+    <button data-key="8">8</button>
+    <button data-key="9">9</button>
+  </div>
+  <div class="key-row">
+    <button data-key="del">⌫</button>
+    <button data-key="0">0</button>
+    <button data-key="hide">✔</button>
+  </div>
 </div>
 
 <script src="script.js"></script>
-
 </body>
-
 </html>
