@@ -114,10 +114,18 @@ Options ⚙
 
 <select id="mascotSelect"></select>
 
+<h3>Answer Mode</h3>
+
+<label class="auto-check-toggle">
+<input type="checkbox" id="autoCheck">
+Instant Check ⭐
+</label>
 
 <button onclick="resetStars()" class="reset-stars">
 Reset Stars
 </button>
+
+
 
 </div>
 
@@ -126,6 +134,33 @@ Reset Stars
 
 </div>
 
+<div id="keypad" class="keypad hidden">
+
+<div class="key-row">
+<button onclick="pressKey(1)">1</button>
+<button onclick="pressKey(2)">2</button>
+<button onclick="pressKey(3)">3</button>
+</div>
+
+<div class="key-row">
+<button onclick="pressKey(4)">4</button>
+<button onclick="pressKey(5)">5</button>
+<button onclick="pressKey(6)">6</button>
+</div>
+
+<div class="key-row">
+<button onclick="pressKey(7)">7</button>
+<button onclick="pressKey(8)">8</button>
+<button onclick="pressKey(9)">9</button>
+</div>
+
+<div class="key-row">
+<button onclick="deleteKey()">⌫</button>
+<button onclick="pressKey(0)">0</button>
+<button onclick="hideKeypad()">✔</button>
+</div>
+
+</div>
 
 <script src="script.js"></script>
 

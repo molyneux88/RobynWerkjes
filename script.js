@@ -3,6 +3,8 @@
 // ----------------------
 let answers = [];
 
+let activeInput = null;
+
 let stars = parseInt(localStorage.getItem("mathStars") || 0);
 
 const mascotData = [
@@ -13,10 +15,18 @@ const mascotData = [
   {emoji:"🦖", name:"Dinosaur", stars:100}
 ];
 
+let autoCheck = localStorage.getItem("autoCheck") === "true";
+
 // ----------------------
 // Initialization
 // ----------------------
 function init() {
+
+  document.getElementById("autoCheck").checked = autoCheck;
+  updateCheckButton();
+
+  document.getElementById("autoCheck").addEventListener("change", updateCheckButton);
+
   // Set star count
   document.getElementById("starCount").innerText = stars;
 
@@ -93,7 +103,7 @@ function generate() {
         <div class="q-number">${i + 1}</div>
         <div class="q-text">${text} =</div>
         <div class="answer-area">
-          <input type="number" id="q${i}">
+          <input type="text" id="q${i}" onclick="setActive(this)" readonly>
           <span class="result-icon" id="r${i}"></span>
         </div>
       </div>
@@ -219,6 +229,87 @@ function updateMascotList(){
     }
     select.appendChild(option);
   });
+}
+
+function setActive(input){
+
+activeInput = input;
+
+document.getElementById("keypad").classList.remove("hidden");
+
+}
+
+function pressKey(num){
+
+if(!activeInput) return;
+
+activeInput.value += num;
+
+if(autoCheck){
+checkSingle(activeInput);
+}
+
+}
+
+function deleteKey(){
+
+if(!activeInput) return;
+
+activeInput.value = activeInput.value.slice(0,-1);
+
+}
+
+function hideKeypad(){
+
+document.getElementById("keypad").classList.add("hidden");
+
+activeInput = null;
+
+}
+
+function updateCheckButton(){
+
+autoCheck = document.getElementById("autoCheck").checked;
+
+localStorage.setItem("autoCheck", autoCheck);
+
+const btn = document.querySelector(".primary-button");
+
+if(autoCheck){
+btn.style.display = "none";
+}else{
+btn.style.display = "block";
+}
+
+}
+
+function checkSingle(input){
+
+if(resultIcon.innerHTML.includes("⭐")) return; 
+
+let id = input.id.replace("q","");
+let correct = answers[id];
+
+let value = parseInt(input.value);
+
+let resultIcon = document.getElementById("r"+id);
+
+if(value === correct){
+
+resultIcon.innerHTML = `<span class="star">⭐</span>`;
+
+stars++;
+localStorage.setItem("mathStars", stars);
+document.getElementById("starCount").innerText = stars;
+
+updateUnlocks();
+
+}else{
+
+resultIcon.innerHTML = "❌";
+
+}
+
 }
 
 // ----------------------
