@@ -167,12 +167,17 @@ function pressKey(num){
   if(!activeInput) return;
   let id = activeInput.id.replace("q","");
   let correct = answers[id];
-  if(activeInput.value.length >= correct.toString().length) return;
+
+  // Limit input to the correct answer length + 1 for safety
+  if(activeInput.value.length >= (correct.toString().length + 1)) return;
+
   activeInput.value += num;
-  if(autoCheck && parseInt(activeInput.value)===correct){
+
+  if(autoCheck){
     checkSingle(activeInput);
   }
 }
+
 
 function deleteKey(){
   if(!activeInput) return;
@@ -200,32 +205,42 @@ function updateCheckButton(){
 }
 
 function checkSingle(input){
-    let id = input.id.replace("q","");
-    let resultIcon = document.getElementById("r"+id);
-    let correct = answers[id];
-    let value = parseInt(input.value);
+  let id = input.id.replace("q","");
+  let resultIcon = document.getElementById("r"+id);
+  let correct = answers[id];
+  let value = parseInt(input.value);
 
-    if(value === correct){
-        if(!resultIcon.dataset.checked){  // prevent double stars
-            resultIcon.innerHTML = `<span class="star star-bounce">⭐</span>`;
-            resultIcon.dataset.checked = "true";
-            stars++;
-            localStorage.setItem("mathStars", stars);
-            document.getElementById("starCount").innerText = stars;
-            updateUnlocks();
-            updateMascotList();
-        }
-    } else {
-        resultIcon.innerHTML = `<span class="cross cross-shake">❌</span>`;   // <-- show cross immediately
-        resultIcon.dataset.checked = "false";
+  // Clear previous animation classes
+  resultIcon.classList.remove("star-bounce","cross-shake");
+  
+  if(value === correct){
+    if(resultIcon.dataset.checked !== "true"){  // prevent double stars
+      resultIcon.innerHTML = `⭐`;
+      resultIcon.classList.add("star-bounce");
+      resultIcon.dataset.checked = "true";
+      stars++;
+      localStorage.setItem("mathStars", stars);
+      document.getElementById("starCount").innerText = stars;
+      updateUnlocks();
+      updateMascotList();
     }
+  } else {
+    if(input.value !== ""){ // only show cross if something entered
+      resultIcon.innerHTML = `❌`;
+      resultIcon.classList.add("cross-shake");
+      resultIcon.dataset.checked = "false";
+    }
+  }
 
-    // Check if all answers correct
-    const allCorrect = [...answers].every((ans, i) => {
-        const el = document.getElementById("r"+i);
-        return el && el.innerHTML.includes("⭐");
-    });
-    if(allCorrect) confetti();
+  // Check if all answered correctly for confetti
+  const allCorrect = answers.every((ans,i)=>{
+    const r = document.getElementById("r"+i);
+    return r && r.dataset.checked === "true";
+  });
+
+  if(allCorrect){
+    confetti();
+  }
 }
 
 // ----------------------
