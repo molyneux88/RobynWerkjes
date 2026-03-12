@@ -139,11 +139,19 @@ function checkAnswers(){
     const val=parseInt(input.value);
     const r=document.getElementById("r"+i);
     if(val===answers[i]){
-      r.innerHTML = `<span class="star star-bounce">⭐</span>`;
+      r.innerHTML = `<span class="star">⭐</span>`;
+      const star = r.querySelector("span");
+      star.classList.remove("star-bounce");
+      void star.offsetWidth; // Force reflow to reset animation
+      star.classList.add("star-bounce");
       score++;
-    } else {
-      r.innerHTML = `<span class="cross cross-shake">❌</span>`;
-    }
+  } else {
+      r.innerHTML = `<span class="cross">❌</span>`;
+      const cross = r.querySelector("span");
+      cross.classList.remove("cross-shake");
+      void cross.offsetWidth; // Force reflow
+      cross.classList.add("cross-shake");
+  }
   }
   stars += score;
   localStorage.setItem("mathStars", stars);
@@ -172,10 +180,6 @@ function pressKey(num){
   if(activeInput.value.length >= (correct.toString().length + 1)) return;
 
   activeInput.value += num;
-
-  if(autoCheck){
-    checkSingle(activeInput);
-  }
 }
 
 
@@ -185,6 +189,9 @@ function deleteKey(){
 }
 
 function hideKeypad(){
+  if(autoCheck && activeInput){
+    checkSingle(activeInput);
+  }
   document.getElementById("keypad").classList.remove("show");
   document.body.classList.remove("keypad-open");
   if(activeInput) activeInput.blur();
@@ -291,6 +298,13 @@ function updateMascotList(){
     select.appendChild(option);
   });
 }
+
+// On input blur
+input.addEventListener("blur", function(){
+  if(autoCheck){
+    checkSingle(this);
+  }
+});
 
 // ----------------------
 // Start app
