@@ -195,16 +195,18 @@ function updateCheckButton(){
 
 function checkSingle(input){
   let id = input.id.replace("q","");
+  let resultIcon = document.getElementById("r"+id);  // declare first!
   let correct = answers[id];
-  let resultIcon = document.getElementById("r"+id);
-  if(parseInt(input.value)===correct){
-    resultIcon.innerHTML=`<span class="star">⭐</span>`;
+  let value = parseInt(input.value);
+
+  if(value === correct){
+    resultIcon.innerHTML = `<span class="star">⭐</span>`;
     stars++;
     localStorage.setItem("mathStars", stars);
     document.getElementById("starCount").innerText = stars;
     updateUnlocks();
   } else {
-    resultIcon.innerHTML="❌";
+    resultIcon.innerHTML = "❌";
   }
 }
 
