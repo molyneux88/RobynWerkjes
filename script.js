@@ -189,8 +189,14 @@ function hideKeypad(){
 function updateCheckButton(){
   autoCheck = document.getElementById("autoCheck").checked;
   localStorage.setItem("autoCheck", autoCheck);
-  const btn=document.querySelector(".primary-button");
-  btn.style.display = autoCheck?"none":"block";
+
+  const btn = document.querySelector(".primary-button"); // Check Answers button
+
+  if(autoCheck){
+    btn.style.display = "none"; // hides it
+  } else {
+    btn.style.display = "block"; // shows it
+  }
 }
 
 function checkSingle(input){

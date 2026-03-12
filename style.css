@@ -115,21 +115,26 @@ margin-left:6px;
 
 /* Button stack */
 
-.button-stack{
-display:flex;
-flex-direction:column;
-gap:10px;
-margin-top:15px;
+.button-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+  width: 100%; /* ensure full width */
+  box-sizing: border-box; /* include padding in width */
+  max-width: 100%;
+  padding: 0 10px; /* safe horizontal padding */
 }
 
-.button-stack button{
-width:100%;
-font-size:22px;
-padding:16px;
-border:none;
-border-radius:14px;
-color:white;
-font-weight:bold;
+.button-stack button {
+  width: 100%;
+  font-size: 22px;
+  padding: 16px;
+  border: none;
+  border-radius: 14px;
+  color: white;
+  font-weight: bold;
+  box-sizing: border-box; /* prevents overflow */
 }
 
 .primary-button{
