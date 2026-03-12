@@ -230,12 +230,17 @@ function updateMascot(score){
 }
 
 function updateUnlocks(){
-  let animals=[];
-  if(stars>=10) animals.push("🐶");
-  if(stars>=25) animals.push("🐱");
-  if(stars>=50) animals.push("🦄");
-  if(stars>=100) animals.push("🦖");
-  document.getElementById("unlockArea").innerText=animals.join(" ");
+  let animals = [];
+
+  // Always include Fox as default
+  animals.push("🦊");  
+
+  if(stars >= 10) animals.push("🐶");
+  if(stars >= 25) animals.push("🐱");
+  if(stars >= 50) animals.push("🦄");
+  if(stars >= 100) animals.push("🦖");
+
+  document.getElementById("unlockArea").innerText = animals.join(" ");
 }
 
 function resetStars(){
