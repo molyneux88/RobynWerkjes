@@ -118,12 +118,22 @@ function generate(){
     `;
   }
 
-  // Add click listeners to inputs
-  for(let i=0;i<10;i++){
-    document.getElementById("q"+i).addEventListener("click", function(){
-      setActive(this);
-    });
-  }
+  // Add click & blur listeners to inputs
+for(let i=0;i<10;i++){
+  const inputEl = document.getElementById("q"+i);
+  
+  // Click to activate keypad
+  inputEl.addEventListener("click", function(){
+    setActive(this);
+  });
+
+  // Blur to trigger auto-check
+  inputEl.addEventListener("blur", function(){
+    if(autoCheck){
+      checkSingle(this);
+    }
+  });
+}
 
   document.getElementById("result").innerText="";
 }
@@ -298,13 +308,6 @@ function updateMascotList(){
     select.appendChild(option);
   });
 }
-
-// On input blur
-input.addEventListener("blur", function(){
-  if(autoCheck){
-    checkSingle(this);
-  }
-});
 
 // ----------------------
 // Start app
