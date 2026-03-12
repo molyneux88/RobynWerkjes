@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Math Fun 🎉</title>
 
 <link rel="stylesheet" href="style.css">
@@ -14,14 +18,49 @@
 
 <body>
 
+<div class="app">
+
 <h1>Math Fun 🎉</h1>
 
-<div class="top-bar">
+<div class="mascot-area">
 
-<button onclick="toggleOptions()">⚙ Options</button>
-<button onclick="generate()">🔄 New Questions</button>
+<div id="mascot">🦊</div>
+
+<div id="mascotMessage">
+Let's do some math!
+</div>
 
 </div>
+
+
+<div class="reward-area">
+
+<div>⭐ Stars: <span id="starCount">0</span></div>
+
+<div id="unlockArea"></div>
+
+</div>
+
+
+<div id="questions"></div>
+
+
+<div class="button-stack">
+
+<button onclick="checkAnswers()" class="primary-button">
+Check Answers
+</button>
+
+<button onclick="generate()" class="secondary-button">
+New Questions
+</button>
+
+<button onclick="toggleOptions()" class="options-button">
+Options ⚙
+</button>
+
+</div>
+
 
 <div id="optionsMenu" class="options-menu hidden">
 
@@ -51,6 +90,7 @@
 
 </div>
 
+
 <h3>Times Tables</h3>
 
 <div class="tables-grid">
@@ -69,9 +109,11 @@
 
 </div>
 
+
 <h3>Mascot</h3>
 
 <select id="mascotSelect"></select>
+
 
 <button onclick="resetStars()" class="reset-stars">
 Reset Stars
@@ -79,31 +121,14 @@ Reset Stars
 
 </div>
 
-<div class="mascot-area">
-
-<div id="mascot">🦊</div>
-
-<div id="mascotMessage">
-Let's do some math!
-</div>
-
-</div>
-
-<div class="reward-area">
-
-<div>⭐ Stars: <span id="starCount">0</span></div>
-
-<div id="unlockArea"></div>
-
-</div>
-
-<div id="questions"></div>
-
-<button class="check-button" onclick="checkAnswers()">Check Answers</button>
 
 <h2 id="result"></h2>
+
+</div>
+
 
 <script src="script.js"></script>
 
 </body>
+
 </html>
