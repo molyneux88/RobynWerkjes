@@ -201,24 +201,26 @@ function checkAnswers(){
 
   // Check if ALL correct
   const allCorrect = answers.every((ans,i)=>{
-    const r = document.getElementById("r"+i);
-    return r && r.dataset.checked === "true";
+    const input = document.getElementById("q"+i);
+    return parseInt(input.value) === ans;
   });
 
   if(allCorrect){
 
-    confetti();
+    confetti({
+    particleCount:150,
+    spread:90,
+    origin:{y:0.6}
+    });
 
     const overlay = document.getElementById("perfectOverlay");
 
-    if(overlay){
-      overlay.classList.remove("hidden");
+    overlay.classList.remove("hidden");
 
-      setTimeout(()=>{
-        overlay.classList.add("hidden");
-      },3000);
-    }
-
+    setTimeout(()=>{
+    overlay.classList.add("hidden");
+    },3000);
+  
   }else{
 
     document.getElementById("result").innerText = `Score: ${score}/10`;
