@@ -96,6 +96,7 @@ function generate(){
   qDiv.innerHTML = "";
 
   for(let i=0;i<10;i++){
+
     const op = ops[Math.floor(Math.random()*ops.length)];
     let a = rand(10);
     let b = tables[Math.floor(Math.random()*tables.length)];
@@ -116,6 +117,9 @@ function generate(){
         </div>
       </div>
     `;
+
+    document.getElementById("r"+i).dataset.checked = "false";
+
   }
 
   // Add click & blur listeners to inputs
@@ -142,42 +146,104 @@ for(let i=0;i<10;i++){
 // Answer handling
 // ----------------------
 function checkAnswers(){
-  let score=0;
+
+  let score = 0;
+
   for(let i=0;i<answers.length;i++){
-    const input=document.getElementById("q"+i);
+
+    const input = document.getElementById("q"+i);
+    const r = document.getElementById("r"+i);
+
     if(input.value==="") continue;
-    const val=parseInt(input.value);
-    const r=document.getElementById("r"+i);
-    if(val===answers[i]){
+
+    const val = parseInt(input.value);
+
+    if(val === answers[i]){
+
       r.innerHTML = `<span class="star">⭐</span>`;
+
       const star = r.querySelector("span");
+
       star.classList.remove("star-bounce");
-      void star.offsetWidth; // Force reflow to reset animation
+      void star.offsetWidth;
       star.classList.add("star-bounce");
-      score++;
-  } else {
+
+      // ⭐ Only reward star if not already counted
+      if(r.dataset.checked !== "true"){
+        stars++;
+        score++;
+      }
+
+      r.dataset.checked = "true";
+
+    }else{
+
       r.innerHTML = `<span class="cross">❌</span>`;
+
       const cross = r.querySelector("span");
+
       cross.classList.remove("cross-shake");
-      void cross.offsetWidth; // Force reflow
+      void cross.offsetWidth;
       cross.classList.add("cross-shake");
+
+      r.dataset.checked = "false";
+
+    }
+
   }
-  }
-  stars += score;
+
+  // Save stars
   localStorage.setItem("mathStars", stars);
   document.getElementById("starCount").innerText = stars;
+
   updateUnlocks();
   updateMascot(score);
-  document.getElementById("result").innerText = score===10?"🎉 PERFECT SCORE 🎉":`Score: ${score}/10`;
+
+  // Check if ALL correct
+  const allCorrect = answers.every((ans,i)=>{
+    const r = document.getElementById("r"+i);
+    return r && r.dataset.checked === "true";
+  });
+
+  if(allCorrect){
+
+    confetti();
+
+    const overlay = document.getElementById("perfectOverlay");
+
+    if(overlay){
+      overlay.classList.remove("hidden");
+
+      setTimeout(()=>{
+        overlay.classList.add("hidden");
+      },3000);
+    }
+
+  }else{
+
+    document.getElementById("result").innerText = `Score: ${score}/10`;
+
+  }
+
 }
 
 // ----------------------
 // Keypad functions
 // ----------------------
 function setActive(input){
+
+  // remove highlight from previous
+  document.querySelectorAll("#questions input").forEach(el=>{
+    el.classList.remove("active-input");
+  });
+
+  input.classList.add("active-input");
+
   activeInput=input;
+
   document.getElementById("keypad").classList.add("show");
   document.body.classList.add("keypad-open");
+
   input.scrollIntoView({behavior:"smooth", block:"center"});
 }
 
@@ -199,12 +265,19 @@ function deleteKey(){
 }
 
 function hideKeypad(){
+
   if(autoCheck && activeInput){
     checkSingle(activeInput);
   }
+
+  if(activeInput){
+    activeInput.classList.remove("active-input");
+    activeInput.blur();
+  }
+
   document.getElementById("keypad").classList.remove("show");
   document.body.classList.remove("keypad-open");
-  if(activeInput) activeInput.blur();
+
   activeInput=null;
 }
 

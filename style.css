@@ -7,6 +7,15 @@ background:#f5f7ff;
 overflow-x:hidden;
 }
 
+html, body{
+overflow-x:hidden;
+max-width:100%;
+}
+
+*{
+box-sizing:border-box;
+}
+
 body.keypad-open{
 padding-bottom:260px;
 }
@@ -17,6 +26,8 @@ padding-bottom:260px;
 max-width:500px;
 margin:auto;
 padding:15px;
+width:100%;
+overflow-x:hidden;
 }
 
 /* Title */
@@ -94,6 +105,11 @@ border:1px solid #ccc;
 text-align:center;
 }
 
+input.active-input{
+border:3px solid #4CAF50;
+box-shadow:0 0 8px rgba(76,175,80,0.6);
+}
+
 .answer-area{
 display:flex;
 align-items:center;
@@ -162,35 +178,31 @@ margin-top:15px;
 .options-menu{
 margin-top:15px;
 background:white;
-padding:15px;
-border-radius:10px;
+padding:18px;
+border-radius:12px;
 box-shadow:0 3px 10px rgba(0,0,0,0.15);
 }
 
-.hidden{
-display:none;
-}
-
-/* Operation grid */
+/* Operations */
 
 .ops-grid{
 display:grid;
 grid-template-columns:repeat(4,1fr);
-gap:14px;
-text-align:center;
-margin-bottom:16px;
+gap:10px;
+margin-bottom:18px;
 }
 
 .ops-grid label{
 display:flex;
 flex-direction:column;
 align-items:center;
-gap:6px;
+justify-content:center;
 font-family:'Fredoka', sans-serif;
 }
 
 .ops-grid input{
 transform:scale(1.6);
+margin-bottom:4px;
 }
 
 .op-symbol{
@@ -202,14 +214,14 @@ font-size:34px;
 .tables-grid{
 display:grid;
 grid-template-columns:repeat(4,1fr);
-gap:12px;
-margin-bottom:16px;
+gap:10px;
 }
 
 .tables-grid label{
 display:flex;
 align-items:center;
-gap:8px;
+justify-content:center;
+gap:6px;
 font-size:20px;
 }
 
@@ -324,11 +336,15 @@ transform:scale(0.95);
 display:none;
 }
 
+/* Instant check toggle */
+
 .auto-check-toggle{
 display:flex;
 align-items:center;
-gap:10px;
+justify-content:center;
+gap:12px;
 font-size:20px;
+margin-top:15px;
 margin-bottom:15px;
 }
 
@@ -355,4 +371,32 @@ transform:scale(1.6);
   25% { transform: translateX(-5px); }
   50% { transform: translateX(5px); }
   75% { transform: translateX(-5px); }
+}
+
+.perfect-overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:2000;
+}
+
+.perfect-box{
+background:white;
+padding:40px;
+border-radius:20px;
+font-size:36px;
+font-family:'Fredoka', sans-serif;
+text-align:center;
+animation:pop 0.4s ease;
+}
+
+@keyframes pop{
+0%{transform:scale(0.5);}
+100%{transform:scale(1);}
 }
