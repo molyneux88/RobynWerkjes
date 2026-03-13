@@ -382,6 +382,10 @@ function updateMascotList(){
   });
 }
 
+function hidePerfectOverlay(){
+  document.getElementById("perfectOverlay").classList.add("hidden");
+}
+
 // ----------------------
 // Start app
 // ----------------------
